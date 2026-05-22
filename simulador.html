@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Atendimento</title>
+    
+    <!-- CSS Principal -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Configurações da Bella (Zoom e Tamanho) -->
+    <link rel="stylesheet" href="configuracoes_bot.css">
+    
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+        }
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, sans-serif; }
+        
+        body { 
+            background: var(--bg); 
+            color: var(--text); 
+            display: flex; 
+            flex-direction: column; 
+            height: 100vh; 
+        }
+
+        .clinic-banner {
+            background: var(--primary);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .chat-container { 
+            flex: 1; 
+            overflow-y: auto; 
+            padding: 1rem; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 0.8rem; 
+        }
+        
+        .chat-msg { 
+            max-width: 75%; 
+            padding: 0.8rem 1rem; 
+            border-radius: 14px; 
+            font-size: 0.95rem; 
+        }
+        
+        .chat-msg.patient { 
+            background: #dcfce7; 
+            color: #14532d; 
+            align-self: flex-start; 
+        }
+        
+        .chat-msg.agent { 
+            background: var(--primary); 
+            color: white; 
+            align-self: flex-end; 
+        }
+
+        .input-area { 
+            padding: 1rem; 
+            background: var(--card); 
+            border-top: 1px solid #e2e8f0; 
+            display: flex; 
+            gap: 0.8rem; 
+        }
+        
+        .input-area input { 
+            flex: 1; 
+            padding: 0.9rem 1.2rem; 
+            border-radius: 24px; 
+            border: 1px solid #e2e8f0; 
+        }
+        
+        .send-btn { 
+            width: 46px; 
+            height: 46px; 
+            border-radius: 50%; 
+            border: none; 
+            background: var(--primary); 
+            color: white; 
+            cursor: pointer;
+        }
+
+        .quick-btns { 
+            display: flex; 
+            gap: 0.5rem; 
+            padding: 0.5rem 1rem; 
+            overflow-x: auto; 
+            background: var(--bg); 
+        }
+        
+        .quick-btn { 
+            background: white; 
+            border: 1px solid #e2e8f0; 
+            padding: 0.4rem 0.8rem; 
+            border-radius: 16px; 
+            cursor: pointer;
+        }
+
+        /* Avatar da Bella */
+        .bot-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid var(--primary);
+            margin-right: 8px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        
+        .bot-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Banner -->
+    <div class="clinic-banner" id="clinic-banner">
+        🏥 Clínica Sorriso - Assistente Virtual
+    </div>
+
+    <!-- Chat -->
+    <div class="chat-container" id="chat-container">
+        <div class="chat-msg agent">
+            <div class="bot-avatar">
+                <img src="bot.png" alt="Bella" onerror="this.src='https://ui-avatars.com/api/?name=Bella&background=3b82f6&color=fff'">
+            </div>
+            Olá! Sou a Bella. Como posso ajudar?
+        </div>
+    </div>
+
+    <!-- Botões rápidos -->
+    <div class="quick-btns" id="quick-btns">
+        <button class="quick-btn" onclick="sendQuickMessage('Quero agendar')">📅 Agendar</button>
+        <button class="quick-btn" onclick="sendQuickMessage('Ver serviços')">📋 Serviços</button>
+        <button class="quick-btn" onclick="sendQuickMessage('Falar com atendente')">👤 Atendente</button>
+    </div>
+
+    <!-- Input -->
+    <div class="input-area">
+        <input type="text" id="user-input" placeholder="Digite sua mensagem..." onkeypress="if(event.key==='Enter') sendMessage()">
+        <button class="send-btn" onclick="sendMessage()">➤</button>
+    </div>
+
+    <script>
+        const chatContainer = document.getElementById('chat-container');
+        const userInput = document.getElementById('user-input');
+
+        function sendQuickMessage(text) {
+            userInput.value = text;
+            sendMessage();
+        }
+
+        function sendMessage() {
+            const message = userInput.value.trim();
+            if (!message) return;
+
+            // Mensagem do usuário
+            const userMsg = document.createElement('div');
+            userMsg.className = 'chat-msg patient';
+            userMsg.textContent = message;
+            chatContainer.appendChild(userMsg);
+            userInput.value = '';
+
+            // Resposta do bot
+            setTimeout(() => {
+                const botMsg = document.createElement('div');
+                botMsg.className = 'chat-msg agent';
+                botMsg.innerHTML = `
+                    <div class="bot-avatar">
+                        <img src="bot.png" alt="Bella">
+                    </div>
+                    Recebi sua mensagem: "${message}"
+                `;
+                chatContainer.appendChild(botMsg);
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }, 500);
+            
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+        
+    </script>
+</body>
+</html>
+<!-- FORÇAR CARREGAMENTO -->
+<style>
+    /* Se o CSS externo não carregar, usa isso aqui */
+    .box-foto-bot, .bot-avatar {
+        width: 120px !important;
+        height: 120px !important;
+    }
+    .box-foto-bot img, .bot-avatar img {
+        transform: scale(1.3) !important;
+    }
+</style>

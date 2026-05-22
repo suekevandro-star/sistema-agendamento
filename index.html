@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendamento Online</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="configuracoes_bot.css">
+</head>
+<body>
+    <div id="app-container">
+
+        <!-- TELA 0: ENTRADA -->
+        <div id="tela-entrada" class="tela ativa">
+            <button onclick="alternarTema()" id="btn-tema" class="btn-flutuante">🌙</button>
+            
+            <div class="box-empresa">
+                <h1 id="display-nome-empresa">Evandro Suek</h1>
+                <span class="subtitulo-empresa" id="display-subtitulo">Sistemas Automatizados de Atendimento</span>
+            </div>
+            
+            <div class="row-bot-info">
+                <div class="box-foto-bot">
+                    <img src="bot.png" alt="Bot" onerror="this.src='https://ui-avatars.com/api/?name=Bot&background=8b5cf6&color=fff&size=150'">
+                </div>
+                <div class="box-msg-bot">
+                    <p class="msg-bot-principal">"OLÁ! BEM-VINDO(A)!<br>EU SOU A <span class="destaque-bella" id="display-nome-bot">BELLA</span>, SUA ASSISTENTE VIRTUAL."</p>
+                    <p class="msg-bot-secundaria">Para começarmos, qual é o seu nome completo?</p>
+                </div>
+            </div>
+            
+            <div class="box-orientacao">
+                <strong>DIGITE SEU NOME ABAIXO</strong>
+            </div>
+            
+            <div class="box-input-nome">
+               <input type="text" id="input-nome-cliente" placeholder="Digite seu nome completo (ex: Maria Silva)" required>
+            </div>
+            
+            <button onclick="iniciarSistema()" class="btn-grande btn-primario">✅ CONTINUAR</button>
+        </div>
+
+        <!-- TELA 1: BOAS-VINDAS -->
+        <div id="tela-boas-vindas" class="tela">
+            <div class="header-box">
+                <h1>Olá, <span id="nome-cliente-destaque">...</span>!</h1>
+                <p class="msg-intro">Como posso ajudar você hoje?</p>
+            </div>
+
+            <button id="btn-meus-agendamentos" onclick="navegar('tela-agendamentos')" class="btn-grande btn-terciario" style="display: none;">
+                  VER MEUS AGENDAMENTOS
+            </button>
+
+            <div class="botoes-acao">
+                <button onclick="navegar('tela-servicos')" class="btn-grande btn-primario">📅 AGENDAR AGORA</button>
+                <button onclick="navegar('tela-servicos')" class="btn-grande btn-secundario">📋 SERVIÇOS</button>
+                <button onclick="alert('Chamando atendente...')" class="btn-grande btn-terciario">👤 FALAR COM ATENDENTE</button>
+            </div>
+        </div>
+
+        <!-- TELA 2: SERVIÇOS -->
+        <div id="tela-servicos" class="tela">
+            <div class="header-simples">
+                <button onclick="navegar('tela-boas-vindas')" class="btn-voltar">← Voltar</button>
+                <h2>Nossos <span class="destaque-nome">SERVIÇOS</span></h2>
+            </div>
+            <div class="lista-servicos">
+                <div class="card-servico" onclick="selecionarServico('Corte Masculino')">
+                    <span class="emoji">✂️</span>
+                    <div class="info"><strong>Corte Masculino</strong><span class="detalhes">R$ 35,00 • 30 min</span></div>
+                </div>
+                <div class="card-servico" onclick="selecionarServico('Barba Completa')">
+                    <span class="emoji">🧔</span>
+                    <div class="info"><strong>Barba Completa</strong><span class="detalhes">R$ 25,00 • 25 min</span></div>
+                </div>
+                <div class="card-servico" onclick="selecionarServico('Corte + Barba')">
+                    <span class="emoji">✨</span>
+                    <div class="info"><strong>Corte + Barba</strong><span class="detalhes">R$ 55,00 • 50 min</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TELA 3: DATA -->
+        <div id="tela-data" class="tela">
+            <div class="header-simples">
+                <button onclick="navegar('tela-servicos')" class="btn-voltar">← Voltar</button>
+                <h2>Escolha o Dia</h2>
+            </div>
+            <div class="lista-datas">
+                <div class="card-data" onclick="selecionarData('Hoje, Segunda')">
+                    <span class="emoji">📆</span>
+                    <div class="info"><strong>HOJE</strong><span class="detalhes" id="label-hoje">Segunda-feira</span></div>
+                </div>
+                <div class="card-data" onclick="selecionarData('Amanhã, Terça')">
+                    <span class="emoji"></span>
+                    <div class="info"><strong>AMANHÃ</strong><span class="detalhes" id="label-amanha">Terça-feira</span></div>
+                </div>
+                <div class="card-data" onclick="selecionarData('Outro Dia')">
+                    <span class="emoji">🗓️</span>
+                    <div class="info"><strong>OUTRO DIA</strong><span class="detalhes">Calendário</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TELA 4: CALENDÁRIO -->
+        <div id="tela-calendario" class="tela">
+            <div class="header-simples">
+                <button onclick="navegar('tela-data')" class="btn-voltar">← Voltar</button>
+                <h2>Calendário</h2>
+            </div>
+            <div class="calendario-wrapper">
+                <div class="calendario-header">
+                    <button onclick="mudarMes(-1)" class="btn-nav-cal">◀</button>
+                    <span id="mes-ano-cal"></span>
+                    <button onclick="mudarMes(1)" class="btn-nav-cal">▶</button>
+                </div>
+                <div class="calendario-semanas">
+                    <div>D</div><div>S</div><div>T</div><div>Q</div><div>Q</div><div>S</div><div>S</div>
+                </div>
+                <div class="calendario-dias" id="calendario-dias"></div>
+            </div>
+        </div>
+
+        <!-- TELA 5: TURNO -->
+        <div id="tela-turno" class="tela">
+            <div class="header-simples">
+                <button onclick="navegar('tela-data')" class="btn-voltar">← Voltar</button>
+                <h2>Qual período prefere?</h2>
+            </div>
+            <p class="texto-orientacao">Para: <span id="turno-data-display" class="destaque-texto">...</span></p>
+            <div class="grid-turnos">
+                <button onclick="selecionarTurno('dia')" class="card-turno dia">
+                    <span class="emoji-grande">🌞</span><strong>DIA</strong>
+                </button>
+                <button onclick="selecionarTurno('noite')" class="card-turno noite">
+                    <span class="emoji-grande">🌙</span><strong>NOITE</strong>
+                </button>
+            </div>
+        </div>
+
+        <!-- TELA 6: HORÁRIO -->
+        <div id="tela-horario" class="tela">
+            <div class="header-simples">
+                <button onclick="navegar('tela-turno')" class="btn-voltar">← Voltar</button>
+                <h2>Horários (<span id="turno-atual-display">Dia</span>)</h2>
+            </div>
+            <p class="texto-orientacao">Escolha um horário:</p>
+            <div class="lista-horarios" id="lista-horarios-dinamica"></div>
+        </div>
+
+        <!-- TELA 7: WHATSAPP -->
+        <div id="tela-whatsapp" class="tela">
+            <div class="header-simples">
+                <button onclick="navegar('tela-horario')" class="btn-voltar">← Voltar</button>
+                <h2>Confirmar</h2>
+            </div>
+            <div class="input-group">
+                <label>Seu WhatsApp:</label>
+                <input type="tel" id="input-telefone" placeholder="(XX) 9XXXX-XXXX" oninput="mascararTelefone(this)">
+            </div>
+            <button onclick="confirmarAgendamento()" class="btn-grande btn-primario">✅ FINALIZAR AGENDAMENTO</button>
+        </div>
+
+        <!-- TELA 8: SUCESSO -->
+        <div id="tela-sucesso" class="tela">
+            <div class="header-sucesso">
+                <span class="emoji-grande"></span>
+                <h2>AGENDADO COM SUCESSO!</h2>
+            </div>
+            <div class="card-resumo">
+                <p>👤 <span id="resumo-nome">...</span></p>
+                <p>✂️ <span class="destaque-nome" id="resumo-servico">...</span></p>
+                <p> <span id="resumo-data">...</span></p>
+                <p>🕐 <span id="resumo-hora">...</span></p>
+            </div>
+            <button onclick="reagendarAgora()" class="btn-grande btn-secundario">📅 REAGENDAR</button>
+            <button onclick="cancelarAgora()" class="btn-grande btn-cancelar">❌ CANCELAR</button>
+            <button onclick="window.location.reload()" class="btn-grande btn-terciario">🏠 INÍCIO</button>
+        </div>
+
+        <!-- TELA 9: MEUS AGENDAMENTOS -->
+        <div id="tela-agendamentos" class="tela">
+            <div class="header-simples">
+                <button onclick="navegar('tela-boas-vindas')" class="btn-voltar">← Voltar</button>
+                <h2>Meus Agendamentos</h2>
+            </div>
+            <div id="lista-agendamentos"></div>
+            <div id="msg-sem-agendamento" style="display:none; text-align:center; padding:40px 0;">
+                <span class="emoji-grande">📭</span>
+                <p>Nenhum agendamento encontrado.</p>
+                <button onclick="navegar('tela-servicos')" class="btn-grande btn-primario" style="margin-top:15px;">FAZER AGENDAMENTO</button>
+            </div>
+        </div>
+
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

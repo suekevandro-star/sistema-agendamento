@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurações Visuais - Bot</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .painel-config {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            color: #1e3a8a;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .subtitulo {
+            color: #64748b;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .config-item {
+            margin-bottom: 35px;
+            padding: 25px;
+            background: #f8fafc;
+            border-radius: 12px;
+            border-left: 4px solid #2563eb;
+        }
+
+        .config-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .config-label strong {
+            color: #0f172a;
+            font-size: 16px;
+        }
+
+        .valor-atual {
+            background: #2563eb;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        /* Slider Personalizado */
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: #cbd5e1;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #2563eb;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(37, 99, 235, 0.4);
+            transition: transform 0.2s;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        .descricao {
+            margin-top: 10px;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .preview-box {
+            margin-top: 30px;
+            padding: 30px;
+            background: white;
+            border: 2px dashed #cbd5e1;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .preview-label {
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 15px;
+        }
+
+        /* PREVIEW COM A FOTO REAL */
+        .preview-bot-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        .preview-bot {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid #2563eb;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+            transition: all 0.3s ease;
+            background: #fff;
+        }
+
+        .preview-bot img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-salvar {
+            width: 100%;
+            padding: 16px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+
+        .btn-salvar:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-reset {
+            width: 100%;
+            padding: 12px;
+            background: #f1f5f9;
+            color: #64748b;
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .btn-reset:hover {
+            background: #e2e8f0;
+        }
+
+        .aviso {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #92400e;
+        }
+    </style>
+</head>
+<body>
+    <div class="painel-config">
+        <h1>⚙️ Configurações Visuais</h1>
+        <p class="subtitulo">Ajuste a aparência da Bella</p>
+
+        <div class="aviso">
+            💡 <strong>Dica:</strong> Certifique-se que o arquivo <code>bot.png</code> está na mesma pasta!
+        </div>
+
+        <!-- Slider 1: Tamanho da Área do Bot -->
+        <div class="config-item">
+            <div class="config-label">
+                <strong>📏 Tamanho da Foto</strong>
+                <span class="valor-atual" id="valor-area">100px</span>
+            </div>
+            <div class="slider-container">
+                <input type="range" id="slider-area" min="60" max="160" value="100" step="5">
+            </div>
+            <p class="descricao">Ajusta o tamanho da foto da Bella (recomendado: 100-120px)</p>
+        </div>
+
+        <!-- Slider 2: Zoom da Foto -->
+        <div class="config-item">
+            <div class="config-label">
+                <strong>🔍 Zoom da Imagem</strong>
+                <span class="valor-atual" id="valor-zoom">100%</span>
+            </div>
+            <div class="slider-container">
+                <input type="range" id="slider-zoom" min="50" max="150" value="100" step="5">
+            </div>
+            <p class="descricao">Aumenta o zoom no rosto da Bella (recomendado: 110-130%)</p>
+        </div>
+
+        <!-- Preview Ao Vivo COM A FOTO REAL -->
+        <div class="preview-box">
+            <div class="preview-label">👁️ Preview Ao Vivo - Bella</div>
+            <div class="preview-bot-container">
+                <div class="preview-bot" id="preview-bot">
+                    <img src="bot.png" alt="Bella - Assistente Virtual" onerror="this.src='https://ui-avatars.com/api/?name=Bella&background=2563eb&color=fff&size=150'">
+                </div>
+            </div>
+            <p style="font-size: 12px; color: #64748b; margin-top: 10px;">
+                Esta é a foto que será usada no sistema
+            </p>
+        </div>
+
+        <!-- Botões de Ação -->
+        <button class="btn-salvar" onclick="salvarConfiguracoes()">💾 Salvar Configurações</button>
+        <button class="btn-reset" onclick="resetarConfiguracoes()">🔄 Restaurar Padrão</button>
+    </div>
+
+    <script>
+        // Elementos
+        const sliderArea = document.getElementById('slider-area');
+        const sliderZoom = document.getElementById('slider-zoom');
+        const valorArea = document.getElementById('valor-area');
+        const valorZoom = document.getElementById('valor-zoom');
+        const previewBot = document.getElementById('preview-bot');
+        const previewBotImg = previewBot.querySelector('img');
+
+        // Carregar configurações salvas
+        window.onload = function() {
+            const configArea = localStorage.getItem('bot-area-size') || '100';
+            const configZoom = localStorage.getItem('bot-zoom') || '100';
+            
+            sliderArea.value = configArea;
+            sliderZoom.value = configZoom;
+            
+            atualizarPreview();
+        };
+
+        // Eventos de mudança
+        sliderArea.addEventListener('input', atualizarPreview);
+        sliderZoom.addEventListener('input', atualizarPreview);
+
+        function atualizarPreview() {
+            const areaSize = sliderArea.value;
+            const zoomLevel = sliderZoom.value;
+
+            // Atualizar valores mostrados
+            valorArea.textContent = areaSize + 'px';
+            valorZoom.textContent = zoomLevel + '%';
+
+            // Aplicar no preview
+            previewBot.style.width = areaSize + 'px';
+            previewBot.style.height = areaSize + 'px';
+            previewBotImg.style.transform = `scale(${zoomLevel / 100})`;
+        }
+
+        function salvarConfiguracoes() {
+            const areaSize = sliderArea.value;
+            const zoomLevel = sliderZoom.value;
+
+            // Salvar no localStorage
+            localStorage.setItem('bot-area-size', areaSize);
+            localStorage.setItem('bot-zoom', zoomLevel);
+
+            // Criar arquivo CSS com as configurações
+            const cssContent = `/* Configurações Personalizadas da Bella - Gerado automaticamente */
+
+.box-foto-bot {
+    width: ${areaSize}px !important;
+    height: ${areaSize}px !important;
+    border: 4px solid var(--cor-primaria) !important;
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.5) !important;
+}
+
+.box-foto-bot img {
+    transform: scale(${zoomLevel / 100}) !important;
+    transition: transform 0.3s ease;
+}
+
+/* Ajustar container para o novo tamanho */
+.row-bot-info {
+    min-height: ${parseInt(areaSize) + 20}px;
+    margin-bottom: 25px;
+}
+`;
+
+            // Download do CSS
+            const blob = new Blob([cssContent], { type: 'text/css' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'configuracoes_bot.css';
+            a.click();
+            URL.revokeObjectURL(url);
+
+            alert(`✅ Configurações salvas!\n\nTamanho: ${areaSize}px\nZoom: ${zoomLevel}%\n\nArquivo "configuracoes_bot.css" foi baixado.\n\nCOPIE ESTE ARQUIVO para a pasta D:\\Projeto Empresas e adicione no index.html:\n<link rel="stylesheet" href="configuracoes_bot.css">`);
+        }
+
+        function resetarConfiguracoes() {
+            sliderArea.value = '100';
+            sliderZoom.value = '100';
+            atualizarPreview();
+            localStorage.removeItem('bot-area-size');
+            localStorage.removeItem('bot-zoom');
+            alert('🔄 Configurações restauradas para o padrão!');
+        }
+    </script>
+</body>
+</html>

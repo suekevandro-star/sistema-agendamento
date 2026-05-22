@@ -1,0 +1,7 @@
+{
+  "rewrites": [
+    { "source": "/painel", "destination": "/painel.html" },
+    { "source": "/simulador", "destination": "/simulador.html" },
+    { "source": "/", "destination": "/index.html" }
+  ]
+}
